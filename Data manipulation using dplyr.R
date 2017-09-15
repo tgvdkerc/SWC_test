@@ -33,3 +33,24 @@ physicochem.control <- df %>%  #start dataframe
 divparam <- df %>% 
   filter(Reactor.phase  == "Startup") %>% 
   select(Diversity...D0,Diversity...D1,Diversity...D2)    # more compact: use contains("Diversity") to encompass all objects containing that word!
+
+###group_by###
+meanph <- df %>% group_by(Reactor.phase) %>%     #piping contents of dataframe to the group by function and for each group we calculate the mean of the ph
+  summarise(mean.ph = mean(ph),
+            mean.d2 = mean(Diversity...D2),    #mean of diversity index 2
+            sd.ph = sd(ph))        #standard deviation of ph
+meanph
+
+### challenge ###
+# Generate this summary for reactor phase 2 only and add standard deviation of the d2 and the log10 transformed cell count
+Challenge <- df %>% 
+  filter(Reactor.cycle == 2) %>%     #piping contents of dataframe to the group by function and for each group we calculate the mean of the ph
+  group_by(Reactor.phase) %>% 
+  summarise(mean.ph = mean(ph),
+            mean.d2 = mean(Diversity...D2),    #mean of diversity index 2
+            sd.ph = sd(ph),    #standard deviation of ph
+            sd.D2 = sd(Diversity...D2),
+            mean.log10celldens = mean(log10(Cell.density..cells.mL.)))        
+Challenge
+
+#filter subsets observations (rows) and select selects variables (colums)
