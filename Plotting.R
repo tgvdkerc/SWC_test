@@ -1,4 +1,5 @@
-df <- read.csv("Metadata.csv")   # save data in dataframe called df
+df <- read.csv("Metadata.csv",na.strings=c("","NA"))   #na.strings to treat empty ce"lls as NA  # save data in dataframe called df
+df <- na.omit (df)   ### remove NA values
 
 # which variables?
 str(df)     #also states what type of variable R thinks the variables are! eg: reactor.cycle is numerical for R since it are number, but there are only two number so it is a factor
@@ -57,7 +58,14 @@ p7 + geom_line(aes(color=Reactor.phase))
 
 #Challenge time
 ### ggplot for conductivity
+data <- df
+data[!apply(is.na(data) |data=="",1,all)]
+data
 
+
+p8 <- ggplot(data=df,aes(x=Timepoint,y=Conductivity, fill=Reactor.phase))
+p9 <- p8 + geom_point(shape=21,size=4,alpha=0.5) + theme_bw() + facet_grid(Reactor.phase~Reactor.cycle)
+p9 +xlab("Time (d)") + ylab("Conductivity")
 
 
 
