@@ -68,3 +68,29 @@ Challenge <- df %>%
             mean.log10celldens = mean(log10(Cell.density..cells.mL.)),
             mean.condrat = mean(condratio))        
 Challenge
+
+
+### join data sets ###
+#split current data file
+physicochem <- df %>%  
+  select(sample_title,temp,ph,Conductivity)
+
+diversity <- df %>% 
+  select(sample_title,contains("Diversity"))
+
+physicodiversity <- dplyr::full_join(physicochem,diversity,by="sample_title")
+
+## remove na ###
+#df.nona <- na.exclude(df)   #filter out all NA --> statistics don't take into account
+#rowSums(is.na(df)) == ncol(df)   #if this is true --> no na's anymore
+
+#na.omit()   regression function still knows there were NA's and will take this into account!
+#you can also use blank.lines.skip=TRUE in the read.csv function --> will not work if some columns are strings and others are number --> also add stringsAsFactors = False --> didn't work but oke :)
+
+
+
+### combining dplyr and ggplot ###
+p1 <- ggplot(data = df, aes(x = Timepoint, y = temp, fill=Reactor.cycle))
+p1 + geom_point(shape=21,size=4, alpha=0.5) + theme_bw()
+
+df %>%  filter(Reactor.cycle==2) 
