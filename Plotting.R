@@ -1,5 +1,6 @@
 df <- read.csv("Metadata.csv",na.strings=c("","NA"))   #na.strings to treat empty ce"lls as NA  # save data in dataframe called df
-df <- na.omit (df)   ### remove NA values
+df <- na.omit (df)   ### remove NA values  
+
 
 # which variables?
 str(df)     #also states what type of variable R thinks the variables are! eg: reactor.cycle is numerical for R since it are number, but there are only two number so it is a factor
