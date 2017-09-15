@@ -54,3 +54,17 @@ Challenge <- df %>%
 Challenge
 
 #filter subsets observations (rows) and select selects variables (colums)
+
+### mutate to make new variables ###
+
+Challenge <- df %>% 
+  filter(Reactor.cycle == 2) %>%     #piping contents of dataframe to the group by function and for each group we calculate the mean of the ph
+  group_by(Reactor.phase) %>% 
+  mutate(condratio=Conductivity/temp) %>% 
+  summarise(mean.ph = mean(ph),
+            mean.d2 = mean(Diversity...D2),    #mean of diversity index 2
+            sd.ph = sd(ph),    #standard deviation of ph
+            sd.D2 = sd(Diversity...D2),
+            mean.log10celldens = mean(log10(Cell.density..cells.mL.)),
+            mean.condrat = mean(condratio))        
+Challenge
